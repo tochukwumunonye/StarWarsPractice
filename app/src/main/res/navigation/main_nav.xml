@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/characterFragment">
+
+    <fragment
+        android:id="@+id/characterFragment"
+        android:name="com.tochukwu.starwarspractice.presentation.CharacterFragment"
+        android:label="CharacterFragment" >
+        <action
+            android:id="@+id/action_characterFragment_to_disneyDetail"
+            app:destination="@id/disneyDetail" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/disneyDetail"
+        android:name="com.tochukwu.starwarspractice.presentation.detail.DisneyDetail"
+        android:label="DisneyDetail" >
+        <argument
+            android:name="selectedDisney"
+            app:argType="com.tochukwu.starwarspractice.data.remote.model.PosterDtoItem" />
+    </fragment>
+</navigation>
