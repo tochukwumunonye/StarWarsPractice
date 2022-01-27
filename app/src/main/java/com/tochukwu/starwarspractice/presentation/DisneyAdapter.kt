@@ -11,8 +11,9 @@ import com.tochukwu.starwarspractice.data.remote.model.PosterDtoItem
 import com.tochukwu.starwarspractice.databinding.CharactersRowBinding
 import com.tochukwu.starwarspractice.util.loadImageOrDefault
 import com.tochukwu.starwarspractice.util.loadOrGone
+import javax.inject.Inject
 
-class DisneyAdapter : androidx.recyclerview.widget.ListAdapter<PosterDtoItem, DisneyAdapter.PosterViewHolder>(DIFF_COMPARATOR){
+class DisneyAdapter @Inject constructor() : androidx.recyclerview.widget.ListAdapter<PosterDtoItem, DisneyAdapter.PosterViewHolder>(DIFF_COMPARATOR){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PosterViewHolder {

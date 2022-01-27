@@ -1,40 +1,28 @@
 package com.tochukwu.starwarspractice.presentation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.DEBUG
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewbinding.BuildConfig.DEBUG
-import com.tochukwu.starwarspractice.BuildConfig.DEBUG
 import com.tochukwu.starwarspractice.R
 import com.tochukwu.starwarspractice.databinding.FragmentHomeBinding
 import com.tochukwu.starwarspractice.util.Status
-import com.tochukwu.starwarspractice.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
-import javax.inject.Inject
-
 
 @AndroidEntryPoint
-class CharacterFragment :Fragment(R.layout.fragment_home){
+class CharacterFragment(
+    var disneyAdapter: DisneyAdapter,
+    var viewModel: CharacterViewModel? = null
+) :Fragment(R.layout.fragment_home){
 
-    private val viewModel: CharacterViewModel by viewModels()
+   // private val viewModel: CharacterViewModel by viewModels()
 
-    private lateinit var disneyAdapter: DisneyAdapter
+
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -47,15 +35,22 @@ class CharacterFragment :Fragment(R.layout.fragment_home){
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        viewModel.getDisney()
-        setUpObserver()
-        setUpRecyclerView()
 
         return _binding?.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel =
+            viewModel ?: ViewModelProvider(requireActivity()).get(CharacterViewModel::class.java)
+
+        viewModel?.getDisney()
+        setUpObserver()
+        setUpRecyclerView()
+    }
     private fun setUpObserver(){
-        viewModel.disneyChannel.observe(viewLifecycleOwner, Observer {
+        viewModel?.disneyChannel?.observe(viewLifecycleOwner, {
             it?.getContentIfNotHandled()?.let { res->
                 when(res.status){
                     Status.SUCCESS ->{
@@ -81,7 +76,7 @@ class CharacterFragment :Fragment(R.layout.fragment_home){
 
     }
     private fun setUpRecyclerView() {
-        disneyAdapter = DisneyAdapter()
+       // disneyAdapter = DisneyAdapter()
 
         binding.recycler.apply{
             adapter = disneyAdapter

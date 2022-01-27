@@ -6,20 +6,23 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.tochukwu.starwarspractice.databinding.ActivityMainBinding
+import com.tochukwu.starwarspractice.presentation.FragmentFactory
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-   // private lateinit var binding: ActivityMainBinding
+    @Inject
+    lateinit var fragmentFactory : FragmentFactory
+
 
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportFragmentManager.fragmentFactory = fragmentFactory
         setContentView(R.layout.activity_main)
 
         val navHostFragment =
@@ -36,3 +39,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+

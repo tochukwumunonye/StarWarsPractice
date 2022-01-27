@@ -5,25 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.tochukwu.starwarspractice.R
 import com.tochukwu.starwarspractice.data.remote.model.PosterDtoItem
 import com.tochukwu.starwarspractice.databinding.DisneyDetailBinding
-import com.tochukwu.starwarspractice.presentation.CharacterViewModel
-import com.tochukwu.starwarspractice.util.loadOrGone
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DisneyDetail : Fragment(R.layout.disney_detail) {
+class DisneyDetail(
+    var viewModel: DisneyViewModel? = null
+) : Fragment(R.layout.disney_detail) {
 
     private val args: DisneyDetailArgs by navArgs()
     private val disneyArticle: PosterDtoItem by lazy {
         args.selectedDisney
     }
 
-    private val viewModel: DisneyViewModel by viewModels()
 
     private var _binding: DisneyDetailBinding? = null
     private val binding get() = _binding!!
@@ -32,18 +31,25 @@ class DisneyDetail : Fragment(R.layout.disney_detail) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DisneyDetailBinding.inflate(inflater, container, false)
 
-        viewModel.fetchArticle(disneyArticle.id)
+
 
         //disneyArticle.id?.let { viewModel.fetchArticle(it) }
 
-        viewModel.articleLiveData.observe(viewLifecycleOwner){poster ->
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(DisneyViewModel::class.java)
+        viewModel?.fetchArticle(disneyArticle.id)
+        viewModel?.articleLiveData?.observe(viewLifecycleOwner){poster ->
             displayPost(poster)
         }
 
-        return binding.root
     }
 
     private fun displayPost(poster: PosterDtoItem?) {
