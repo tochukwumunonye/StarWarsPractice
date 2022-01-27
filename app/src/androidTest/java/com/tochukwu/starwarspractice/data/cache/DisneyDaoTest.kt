@@ -7,8 +7,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.tochukwu.starwarspractice.data.cache.model.PosterEntity
 import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -48,9 +46,9 @@ class DisneyDaoTest {
 
     @Test
     fun insertList() = runBlocking{
-        val disney = PosterEntity(1, "jj", "kkk", "ll", "mm", "nn", "oo")
-        val disney2 = PosterEntity(1, "bb", "kkk", "ll", "mm", "np", "oo")
-        val disney3 = PosterEntity(1, "jj", "kkk", "ll", "mm", "nn", "oo")
+        val disney = PosterEntity(1, "jj", "klkk", "ooll", "mmm", "npn", "oyo")
+        val disney2 = PosterEntity(3, "bb", "kmkk", "uull", "mmn", "npe", "ouio")
+        val disney3 = PosterEntity(7, "juu", "kkk", "llbb", "omm", "nxn", "ouo")
 
         val disneyList = listOf(disney, disney2, disney3)
         dao.insertDisney(disneyList)
