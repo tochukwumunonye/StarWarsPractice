@@ -16,6 +16,14 @@ class CharacterViewModel  @Inject constructor(
     private val characterRepo : MainRepository
 ): ViewModel(){
 
+   val _data = MutableLiveData(false)
+
+   // fun kkk(){
+      //  viewModel?._data?.observe(viewLifecycleOwner, {
+        //    if(it.equals(true))
+       //         jfrjjrjrjr;
+     //   })
+   // }
     private val _disneyChannel = MutableLiveData<Event<Resource<List<PosterDtoItem>>>>()
     val disneyChannel: LiveData<Event<Resource<List<PosterDtoItem>>>> get() = _disneyChannel
 
@@ -23,6 +31,7 @@ class CharacterViewModel  @Inject constructor(
 
         characterRepo.getPoster().collectLatest{
             _disneyChannel.postValue(Event(it))
+            _data.postValue(true)
         }
     }
 

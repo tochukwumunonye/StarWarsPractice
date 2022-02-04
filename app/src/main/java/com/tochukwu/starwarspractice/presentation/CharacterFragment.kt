@@ -49,6 +49,9 @@ class CharacterFragment(
         setUpObserver()
         setUpRecyclerView()
     }
+
+
+
     private fun setUpObserver(){
         viewModel?.disneyChannel?.observe(viewLifecycleOwner, {
             it?.getContentIfNotHandled()?.let { res->
